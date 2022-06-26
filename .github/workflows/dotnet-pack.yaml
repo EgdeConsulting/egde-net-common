@@ -60,8 +60,8 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           dotnet pack Egde.Common.sln -c Release -o out /p:Version=${{ steps.gitversion.outputs.semVer }}
-      - name: Push generated packages to GitHub registry
+      - name: Push packages to NuGet registry
         if: github.event_name != 'pull_request'
-        run: dotnet nuget push **/*.nupkg --skip-duplicate
+        run: dotnet nuget push **/*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.EGDE_NUGET_NPM}}
