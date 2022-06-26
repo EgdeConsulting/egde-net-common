@@ -1,0 +1,66 @@
+name: Publish package to GitHub Packages
+on:
+  push:
+    branches: [main]
+    # Publish semver tags as releases.
+    tags: ["v*.*.*"]
+  pull_request:
+    branches: [main]
+jobs:
+  npm__nuget_publish:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # for comments
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.x"
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        with:
+          useConfigFile: true
+          configFilePath: GitVersion.yml
+      - name: Test
+        run: dotnet test --collect:"XPlat Code Coverage" --results-directory coverage --settings coverlet.runsettings
+      - name: Copy Coverage To Predictable Location
+        run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.0.2
+        with:
+          filename: coverage/coverage.cobertura.xml
+          badge: true
+          format: "markdown"
+          output: "both"
+      - run: npm install fs
+      - uses: actions/github-script@v5
+        if: github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs')
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🙋‍♂️ 👷‍♀️👷‍♂️🏗️ \n Dette er en automatisk generert comment... \n\n' + fs.readFileSync('./code-coverage-results.md', 'utf8')
+            })
+      - name: Build solution and generate NuGet packages
+        if: github.event_name != 'pull_request'
+        working-directory: csharp
+        run: |
+          dotnet pack Egde.Common.sln -c Release -o out /p:Version=${{ steps.gitversion.outputs.semVer }}
+      - name: Push generated packages to GitHub registry
+        if: github.event_name != 'pull_request'
+        working-directory: csharp
+        run: dotnet nuget push **/*.nupkg --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.EGDE_NUGET_NPM}}
