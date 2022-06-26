@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
@@ -62,6 +62,4 @@ jobs:
           dotnet pack Egde.Common.sln -c Release -o out /p:Version=${{ steps.gitversion.outputs.semVer }}
       - name: Push packages to NuGet registry
         if: github.event_name != 'pull_request'
-        run: dotnet nuget push **/*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.EGDE_NUGET_NPM}}
+        run: dotnet nuget push **/*.nupkg --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key ${{secrets.EGDE_NUGET_NPM}}
