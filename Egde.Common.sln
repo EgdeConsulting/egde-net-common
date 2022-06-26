@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egde.Common.Cryptography", "src\Egde.Common.Cryptography\Egde.Common.Cryptography.csproj", "{7BD2DA72-1EE4-4F6F-8CA9-371C8A9BA1C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egde.Common.Configuration", "src\Egde.Common.Configuration\Egde.Common.Configuration.csproj", "{81D97CBA-72FB-4098-911F-23E6A4F169D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F872DBB6-F782-48F2-B25B-D24F890E1B84}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{61A74782-F0AA-4F56-817D-446AC7F8FF95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egde.Common.Cryptography.Tests", "src\Egde.Common.Cryptography.Tests\Egde.Common.Cryptography.Tests.csproj", "{9EDB5559-B2D3-4377-AE0C-CA62700AE77D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BD2DA72-1EE4-4F6F-8CA9-371C8A9BA1C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD2DA72-1EE4-4F6F-8CA9-371C8A9BA1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD2DA72-1EE4-4F6F-8CA9-371C8A9BA1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD2DA72-1EE4-4F6F-8CA9-371C8A9BA1C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D97CBA-72FB-4098-911F-23E6A4F169D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D97CBA-72FB-4098-911F-23E6A4F169D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D97CBA-72FB-4098-911F-23E6A4F169D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D97CBA-72FB-4098-911F-23E6A4F169D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EDB5559-B2D3-4377-AE0C-CA62700AE77D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EDB5559-B2D3-4377-AE0C-CA62700AE77D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EDB5559-B2D3-4377-AE0C-CA62700AE77D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EDB5559-B2D3-4377-AE0C-CA62700AE77D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9EDB5559-B2D3-4377-AE0C-CA62700AE77D} = {61A74782-F0AA-4F56-817D-446AC7F8FF95}
+	EndGlobalSection
+EndGlobal
