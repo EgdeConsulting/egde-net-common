@@ -32,8 +32,10 @@ jobs:
       - name: Test
         run: dotnet test --collect:"XPlat Code Coverage" --results-directory coverage --settings coverlet.runsettings
       - name: Copy Coverage To Predictable Location
+        if: github.event_name == 'pull_request'
         run: cp coverage/*/coverage.cobertura.xml coverage/coverage.cobertura.xml
       - name: Code Coverage Summary Report
+        if: github.event_name == 'pull_request'
         uses: irongut/CodeCoverageSummary@v1.0.2
         with:
           filename: coverage/coverage.cobertura.xml
@@ -41,6 +43,7 @@ jobs:
           format: "markdown"
           output: "both"
       - run: npm install fs
+        if: github.event_name == 'pull_request'
       - uses: actions/github-script@v5
         if: github.event_name == 'pull_request'
         with:
@@ -55,12 +58,10 @@ jobs:
             })
       - name: Build solution and generate NuGet packages
         if: github.event_name != 'pull_request'
-        working-directory: csharp
         run: |
           dotnet pack Egde.Common.sln -c Release -o out /p:Version=${{ steps.gitversion.outputs.semVer }}
       - name: Push generated packages to GitHub registry
         if: github.event_name != 'pull_request'
-        working-directory: csharp
         run: dotnet nuget push **/*.nupkg --skip-duplicate
         env:
           NUGET_AUTH_TOKEN: ${{secrets.EGDE_NUGET_NPM}}
